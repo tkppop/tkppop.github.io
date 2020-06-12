@@ -1,21 +1,49 @@
 <!DOCTYPE html>
-    <head>
-        <title> Test Chat Page</title>
-        <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
-    </head>
-    <body>
-        Hello world
-        <df-messenger
-            intent="WELCOME"
-            chat-title="DemoCand"
-            agent-id="8ff66f70-160d-4b53-8fd1-517badbe054f"
-            language-code="en"
-        ></df-messenger>
-        <script> 
-            const dfMessenger = document.querySelector('df-messenger');
-            dfMessenger.addEventListener('df-response-received', function (event) {
-                console.log(event)
-            });
-        </script>
-    </body>
+
+<head>
+  <title> Test Chat Page</title>
+  <meta name="viewport" content="width-device-width, initial-scale=1">
+  <style> 
+    body {
+      background-image: url('Samplefullpage.png');
+      background-repeat: no-repeat;
+      background-attachment: scroll;
+    }
+  </style>
+  <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+</head>
+
+<body>
+  Hello world
+  <df-messenger intent="WELCOME" chat-title="DemoCand" chat-icon="chat.svg" agent-id="8ff66f70-160d-4b53-8fd1-517badbe054f" language-code="en"></df-messenger>
+  <script>
+    const dfMessenger = document.querySelector('df-messenger');
+    dfMessenger.addEventListener('dfMessengerLoaded', function(event) {
+      console.log('here1')
+      });
+    dfMessenger.addEventListener('df-response-received', function(event) {
+        //console.log(event.detail.response.queryResult.fulfillmentMessages.length)
+        const replyMessages = event.detail.response.queryResult.fulfillmentMessages
+        let options1 = []
+        for (x in replyMessages) {
+          if (replyMessages[x].hasOwnProperty('quickReplies')) {
+            const quickReplies = replyMessages[x].quickReplies.quickReplies
+            for ( y in quickReplies) {
+              options1.push({ text: quickReplies[y] })
+            }
+          }
+        }
+        if (options1.length !== 0){
+          let x = [{
+            type : 'chips',
+            options : options1
+          }]
+          console.log(JSON.stringify(x))
+          const replytext = event.detail.response.queryResult.fulfillmentText
+          dfMessenger.renderCustomText(replytext);
+          dfMessenger.renderCustomCard(x);
+        }
+      });
+  </script>
+</body>
 </html>
