@@ -1,0 +1,17 @@
+title: Prasanna Krishnan
+description: Product Manager | Platform Development | CRM | Ad Platforms
+baseurl: ""
+url: "https://tkppop.github.io"
+
+# Build settings
+markdown: kramdown
+theme: jekyll-theme-cayman
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - vendor
+  - .bundle
+  - .gitignore
+  - README.md 
